@@ -14,6 +14,15 @@
  */
 
 import Constants from '../utils/constant';
+import audio from '@ohos.multimedia.audio'
+
+@Extend(Button) function customizeButton() {
+  .backgroundColor($r('app.color.default_background_color'))
+  .fontColor($r('app.color.button_color'))
+  .fontWeight(FontWeight.Medium)
+  .height(Constants.BUTTON_HEIGHT)
+  .width(Constants.BUTTON_WIDTH)
+}
 
 @CustomDialog
 export struct authorizeDialog {
@@ -36,5 +45,65 @@ export struct authorizeDialog {
     .borderRadius(Constants.DIALOG_BORDER_RADIUS)
     .height(Constants.DIALOG_HEIGHT)
     .width(Constants.DIALOG_WIDTH)
+  }
+}
+
+@CustomDialog
+export struct globalDialog {
+  @Link globalIsOn: boolean
+  controller: CustomDialogController;
+
+  build() {
+    Flex({ justifyContent: FlexAlign.Center, alignItems: ItemAlign.End }) {
+      Column() {
+        Text(globalThis.currentPermissionGroup == 'CAMERA' ? $r('app.string.close_camera') : $r('app.string.close_microphone'))
+          .fontSize(Constants.TEXT_BIG_FONT_SIZE)
+          .fontColor($r('app.color.label_color'))
+          .lineHeight(Constants.TEXT_BIG_LINE_HEIGHT)
+          .height(Constants.ROW_HEIGHT)
+          .width(Constants.FULL_WIDTH)
+          .padding({ left: Constants.DIALOG_DESP_MARGIN_LEFT, right: Constants.DIALOG_DESP_MARGIN_RIGHT })
+        Text(globalThis.currentPermissionGroup == 'CAMERA' ? $r('app.string.close_camera_desc') : $r('app.string.close_microphone_desc'))
+          .fontSize(Constants.TEXT_MIDDLE_FONT_SIZE)
+          .fontColor($r('app.color.label_color'))
+          .lineHeight(Constants.TEXT_LINE_HEIGHT)
+          .width(Constants.FULL_WIDTH)
+          .padding({ left: Constants.DIALOG_DESP_MARGIN_LEFT, right: Constants.DIALOG_DESP_MARGIN_RIGHT })
+          .margin({ bottom: Constants.DIALOG_DESP_MARGIN_BOTTOM })
+        Row() {
+          Flex({ justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Start }) {
+            Button($r('app.string.cancel'))
+              .fontSize(Constants.BUTTON_FONT_SIZE)
+              .onClick(() => {
+                this.cancel()
+              }).customizeButton().margin({ left: Constants.BUTTON_MARGIN_LEFT })
+            Text('|').fontSize(Constants.BUTTON_DIVIDER_FONT_SIZE).fontColor($r('app.color.divider_color'))
+              .margin({ top: Constants.BUTTON_MARGIN_TOP })
+            Button($r('app.string.close'))
+              .fontSize(Constants.BUTTON_FONT_SIZE)
+              .onClick(() => {
+                this.confirm()
+              }).customizeButton().margin({ right: Constants.BUTTON_MARGIN_RIGHT })
+          }.height(Constants.ROW_HEIGHT)
+        }
+      }
+      .backgroundColor($r('app.color.default_background_color'))
+      .borderRadius(Constants.DIALOG_PRIVACY_BORDER_RADIUS)
+      .width(Constants.DIALOG_PRIVACY_WIDTH)
+      .margin({ bottom: Constants.DIALOG_MARGIN_BOTTOM })
+    }.width(Constants.FULL_WIDTH)
+    .height(Constants.FULL_HEIGHT)
+  }
+
+  confirm() {
+    var audioManager = audio.getAudioManager();
+    audioManager.setMicrophoneMute(true).then(() => {
+      this.globalIsOn = false
+      this.controller.close()
+    })
+  }
+
+  cancel() {
+    this.controller.close()
   }
 }
