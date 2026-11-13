@@ -52,6 +52,12 @@
             }
         ],
         "extensionAbilities": [
+{
+    "name": "com.ohos.permissionmanager.OpenSettingAbility",
+    "srcEntry": "./ets/OpenSetting/OpenSettingAbility.ets",
+    "type": "sys/commonUI",
+    "exported": true
+},
             {
                 "icon": "$media:app_icon",
                 "name": "com.ohos.permissionmanager.GrantAbility",

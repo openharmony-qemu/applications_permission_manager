@@ -12,6 +12,7 @@
     "pages/securityDialog",
     "pages/transition",
     "PermissionSheet/PermissionStateSheetDialog",
-    "PermissionSheet/GlobalSwitchSheetDialog"
+    "PermissionSheet/GlobalSwitchSheetDialog",
+    "OpenSetting/OpenSettingDialog"
   ]
 }

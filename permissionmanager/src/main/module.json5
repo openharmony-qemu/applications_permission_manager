@@ -62,6 +62,12 @@
             }
         ],
         "extensionAbilities": [
+{
+    "name": "com.ohos.permissionmanager.OpenSettingAbility",
+    "srcEntry": "./ets/OpenSetting/OpenSettingAbility.ets",
+    "type": "sys/commonUI",
+    "exported": true
+},
             {
                 "name": "com.ohos.permissionmanager.MainAbility",  // 建议明确命名
                 "type":  'sys/commonUI',  // 必须声明type为ui
